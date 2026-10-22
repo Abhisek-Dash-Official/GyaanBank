@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GyaanBank
+
+> **Share, Discover, and Monetize Academic Notes**
+
+GyaanBank is a modern, full-stack digital marketplace designed for students, educators, and lifelong learners. It allows users to upload, edit, share, read, and trade study notes—ranging from free community resources ($0) to premium academic material.
+
+---
+
+## Features
+
+- **Notes Marketplace:** Browse through a rich collection of free and premium notes across various subjects and domains.
+- **Seamless Upload & Link Sharing:** Upload PDF file links to external notes and study materials.
+- **Edit & Manage Listing:** Update note details, prices, preview images, and resource links directly from your creator dashboard.
+- **In-Browser Reader/Viewer:** Read and preview notes directly within the platform.
+- **Free & Paid Content Support:** Flexible monetization options for contributors—list resources as free ($0) or set a custom price.
+- **Smart Search & Filtering:** Filter notes by subject, university, course, price, and ratings.
+
+---
+
+## Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Database:** [MongoDB](https://www.mongodb.com/)
+- **Payments:** [Razorpay](https://razorpay.com/)
+
+---
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to set up and run the project locally.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Installation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Clone the repository:**
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+   ```bash
+   git clone [https://github.com/Abhisek-Dash-Official/GyaanBank.git](https://github.com/Abhisek-Dash-Official/GyaanBank.git)
+   cd gyaanbank
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies:**
 
-## Learn More
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Run the development server:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Open in browser:**
+   Open [http://localhost:3000](http://localhost:3000) with your browser to see the application live.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a pull request.
+
+---
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
