@@ -42,7 +42,7 @@ export default function LoginPage() {
             <div className="max-w-md w-full bg-white p-8 border border-slate-200 shadow-sm">
 
                 <div className="flex flex-col items-center mb-8">
-                    <BrandMark className="w-8 h-8 mb-4" />
+                    <BrandMark className="w-16 h-16 mb-4" />
                     <h2 className="text-xl font-bold tracking-tight text-slate-900">
                         Welcome back
                     </h2>
