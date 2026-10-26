@@ -1,6 +1,7 @@
 import connectDB from "@/lib/db";
 import { Resource } from "@/models/Resource";
 import { Transaction } from "@/models/Transaction";
+import { User } from "@/models/User";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -17,11 +18,16 @@ export async function POST(req) {
         if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
         await connectDB();
+        User;
         const { resourceId } = await req.json();
 
-        const resource = await Resource.findById(resourceId);
+        const resource = await Resource.findById(resourceId).populate("creator");
         if (!resource) return NextResponse.json({ error: "Resource not found" }, { status: 404 });
         if (resource.price === 0) return NextResponse.json({ error: "This resource is free" }, { status: 400 });
+
+        if (!resource.creator.razorpayAccountId) {
+            return NextResponse.json({ error: "Creator has not set up their bank account for payouts yet" }, { status: 400 });
+        }
 
         const existingTransaction = await Transaction.findOne({
             buyerId: session.user.id,
@@ -32,10 +38,24 @@ export async function POST(req) {
             return NextResponse.json({ error: "Already purchased" }, { status: 400 });
         }
 
+        const totalAmountPaise = resource.price * 100;
+        const platformFeePaise = Math.floor(totalAmountPaise * 0.10);
+        const creatorSharePaise = totalAmountPaise - platformFeePaise;
+
         const order = await razorpay.orders.create({
-            amount: resource.price * 100,
+            amount: totalAmountPaise,
             currency: "INR",
-            receipt: `rcpt_${Date.now()}`
+            receipt: `rcpt_${Date.now()}`,
+            transfers: [
+                {
+                    account: resource.creator.razorpayAccountId,
+                    amount: creatorSharePaise,
+                    currency: "INR",
+                    notes: {
+                        resource_title: resource.title
+                    }
+                }
+            ]
         });
 
         await Transaction.create({
@@ -49,7 +69,6 @@ export async function POST(req) {
         return NextResponse.json({ success: true, order }, { status: 200 });
 
     } catch (error) {
-        console.error("Create Order Error:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

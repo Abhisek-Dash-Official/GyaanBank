@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["admin", "user"],
         default: "user"
+    },
+    razorpayAccountId: {
+        type: String,
+        default: ""
     }
 }, { timestamps: true });
 

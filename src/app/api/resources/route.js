@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
 import { Resource } from "@/models/Resource";
+import { User } from "@/models/User";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -19,6 +20,14 @@ export async function POST(req) {
         }
 
         await connectDB();
+        const user = await User.findById(session.user.id);
+
+        if (price > 0 && !user.razorpayAccountId) {
+            return NextResponse.json(
+                { error: "Please set up your bank account (Payouts) before creating a paid resource." },
+                { status: 400 }
+            );
+        }
 
         const newResource = await Resource.create({
             title,
