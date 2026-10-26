@@ -1,34 +1,41 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrains = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
 export const metadata = {
-  title: "GyaanBank — Notes Marketplace for Students",
+  title: "GyaanBank | Notes Marketplace for Students",
   description: "Discover, buy, sell, and download free or premium study notes, PDFs, and academic resources created by students.",
+  keywords: ["study notes", "student marketplace", "buy notes", "sell PDFs", "GyaanBank", "academic resources"],
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${jakarta.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
-        {/* <Header /> */}
+      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 font-sans">
 
+        {/* TODO: Add <NextAuthProvider> here later for Auth session */}
+
+        {/* TODO: <Header /> */}
         <main className="flex-1">
           {children}
         </main>
-        {/* <Footer /> */}
+        {/* TODO: <Footer /> */}
+
       </body>
     </html>
   );
