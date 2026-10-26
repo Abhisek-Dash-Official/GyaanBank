@@ -12,7 +12,7 @@ export default function ErrorBoundary({ error, reset }) {
   return (
     <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 text-center">
       <div className="w-12 h-12 mb-6 rounded-full bg-red-50 flex items-center justify-center border border-red-100">
-        <BrandMark className="w-6 h-6 grayscale opacity-80" />
+        <BrandMark className="w-16 h-16 grayscale opacity-80" />
       </div>
 
       <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-3">
