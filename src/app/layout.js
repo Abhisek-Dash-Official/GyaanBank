@@ -1,5 +1,8 @@
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import Providers from "@/components/Providers";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -28,13 +31,13 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 font-sans">
 
-        {/* TODO: Add <NextAuthProvider> here later for Auth session */}
-
-        {/* TODO: <Header /> */}
-        <main className="flex-1">
-          {children}
-        </main>
-        {/* TODO: <Footer /> */}
+        <Providers >
+          <Header />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
 
       </body>
     </html>
