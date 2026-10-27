@@ -19,7 +19,7 @@ export const metadata = {
   description: "Discover, buy, sell, and download free or premium study notes, PDFs, and academic resources created by students.",
   keywords: ["study notes", "student marketplace", "buy notes", "sell PDFs", "GyaanBank", "academic resources"],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.png",
   },
 };
 
