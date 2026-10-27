@@ -129,6 +129,7 @@ export default function UploadPage() {
                                     >
                                         <option value="School">School</option>
                                         <option value="College">College</option>
+                                        <option value="Engineering">Engineering</option>
                                         <option value="University">University</option>
                                         <option value="Research">Research</option>
                                         <option value="Office">Office</option>

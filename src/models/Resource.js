@@ -13,7 +13,7 @@ const resourceSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['School', 'College', 'University', 'Research', 'Office', 'Competitive Exams']
+        enum: ['School', 'College', 'University', 'Research', 'Office', 'Competitive Exams', 'Engineering']
     },
     subject: {
         type: String,
