@@ -6,6 +6,16 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { BrandMark, ChevronDownIcon, MenuIcon, CloseIcon } from "@/components/Icons";
 
+const MAIN_NAV = [
+    { name: "Browse Notes", href: "/explore" },
+    { name: "Sell Notes", href: "/upload" },
+];
+
+const USER_MENU = [
+    { name: "My Library & Uploads", href: "/dashboard" },
+    { name: "Account & Settings", href: "/profile" },
+];
+
 export default function Header() {
     const { data: session, status } = useSession();
     const pathname = usePathname();
@@ -23,12 +33,13 @@ export default function Header() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const isActive = (path) => pathname === path;
+    const isActive = (path) => pathname === path || pathname.startsWith(`${path}/`);
 
     return (
         <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
+                {/* Logo & Desktop Nav */}
                 <div className="flex items-center space-x-8">
                     <Link href="/" className="flex items-center">
                         <BrandMark className="w-16 h-16" />
@@ -38,34 +49,23 @@ export default function Header() {
                     </Link>
 
                     <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-                        <Link
-                            href="/explore"
-                            className={
-                                isActive("/explore")
-                                    ? "text-blue-700 font-semibold"
-                                    : "text-slate-600 hover:text-slate-900 transition-colors"
-                            }
-                        >
-                            Browse Notes
-                        </Link>
-                        <Link
-                            href="/upload"
-                            className={
-                                isActive("/upload")
-                                    ? "text-blue-700 font-semibold"
-                                    : "text-slate-600 hover:text-slate-900 transition-colors"
-                            }
-                        >
-                            Sell Notes
-                        </Link>
-                        {session?.user?.role === "admin" && (
+                        {MAIN_NAV.map((item) => (
                             <Link
-                                href="/admin"
+                                key={item.href}
+                                href={item.href}
                                 className={
-                                    pathname.startsWith("/admin")
+                                    isActive(item.href)
                                         ? "text-blue-700 font-semibold"
                                         : "text-slate-600 hover:text-slate-900 transition-colors"
                                 }
+                            >
+                                {item.name}
+                            </Link>
+                        ))}
+                        {session?.user?.role === "admin" && (
+                            <Link
+                                href="/admin"
+                                className={isActive("/admin") ? "text-blue-700 font-semibold" : "text-slate-600 hover:text-slate-900 transition-colors"}
                             >
                                 Admin Panel
                             </Link>
@@ -96,29 +96,16 @@ export default function Header() {
                                         </p>
                                     </div>
 
-                                    <Link
-                                        href="/dashboard"
-                                        onClick={() => setDropdownOpen(false)}
-                                        className="block px-3.5 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900"
-                                    >
-                                        My Library & Uploads
-                                    </Link>
-                                    <Link
-                                        href="/profile"
-                                        onClick={() => setDropdownOpen(false)}
-                                        className="block px-3.5 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900"
-                                    >
-                                        Account & Payouts
-                                    </Link>
-                                    {session.user.role === "admin" && (
+                                    {USER_MENU.map((item) => (
                                         <Link
-                                            href="/admin"
+                                            key={item.href}
+                                            href={item.href}
                                             onClick={() => setDropdownOpen(false)}
-                                            className="block px-3.5 py-2 text-sm text-blue-700 font-medium hover:bg-slate-50"
+                                            className="block px-3.5 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900"
                                         >
-                                            Admin Dashboard
+                                            {item.name}
                                         </Link>
-                                    )}
+                                    ))}
 
                                     <div className="border-t border-slate-100 mt-1 pt-1">
                                         <button
@@ -134,57 +121,44 @@ export default function Header() {
                         </div>
                     ) : (
                         <>
-                            <Link
-                                href="/login"
-                                className="text-sm font-medium text-slate-700 hover:text-slate-950 px-3 py-2 transition-colors"
-                            >
+                            <Link href="/login" className="text-sm font-medium text-slate-700 hover:text-slate-950 px-3 py-2 transition-colors">
                                 Log in
                             </Link>
-                            <Link
-                                href="/signup"
-                                className="text-sm font-medium bg-blue-700 text-white hover:bg-blue-800 px-4 py-2 rounded-md transition-colors"
-                            >
+                            <Link href="/signup" className="text-sm font-medium bg-blue-700 text-white hover:bg-blue-800 px-4 py-2 rounded-md transition-colors">
                                 Create Account
                             </Link>
                         </>
                     )}
                 </div>
 
+                {/* Mobile Menu Toggle */}
                 <div className="flex md:hidden">
                     <button
                         type="button"
                         onClick={() => setMobileMenuOpen((prev) => !prev)}
                         className="p-2 text-slate-700 hover:text-slate-900 focus:outline-none"
-                        aria-label="Toggle Menu"
                     >
                         {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
                     </button>
                 </div>
             </div>
 
+            {/* Mobile Nav */}
             {mobileMenuOpen && (
                 <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-4 space-y-3">
                     <div className="flex flex-col space-y-2 text-sm font-medium">
-                        <Link
-                            href="/explore"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="py-1.5 text-slate-700 hover:text-slate-900"
-                        >
-                            Browse Notes
-                        </Link>
-                        <Link
-                            href="/upload"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="py-1.5 text-slate-700 hover:text-slate-900"
-                        >
-                            Sell Notes
-                        </Link>
-                        {session?.user?.role === "admin" && (
+                        {MAIN_NAV.map((item) => (
                             <Link
-                                href="/admin"
+                                key={item.href}
+                                href={item.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="py-1.5 text-blue-700 font-semibold"
+                                className={`py-1.5 ${isActive(item.href) ? "text-blue-700 font-semibold" : "text-slate-700 hover:text-slate-900"}`}
                             >
+                                {item.name}
+                            </Link>
+                        ))}
+                        {session?.user?.role === "admin" && (
+                            <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="py-1.5 text-slate-700 hover:text-slate-900">
                                 Admin Panel
                             </Link>
                         )}
@@ -193,45 +167,33 @@ export default function Header() {
                     <div className="border-t border-slate-200 pt-3">
                         {session ? (
                             <div className="space-y-2 text-sm">
-                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                                     {session.user.name}
                                 </p>
-                                <Link
-                                    href="/dashboard"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="block py-1.5 text-slate-700"
-                                >
-                                    My Library & Uploads
-                                </Link>
-                                <Link
-                                    href="/profile"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="block py-1.5 text-slate-700"
-                                >
-                                    Account & Payouts
-                                </Link>
+                                {USER_MENU.map((item) => (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="block py-1.5 text-slate-700"
+                                    >
+                                        {item.name}
+                                    </Link>
+                                ))}
                                 <button
                                     type="button"
                                     onClick={() => signOut({ callbackUrl: "/login" })}
-                                    className="block w-full text-left py-1.5 text-red-600 font-medium"
+                                    className="block w-full text-left py-1.5 text-red-600 font-medium mt-2"
                                 >
                                     Log out
                                 </button>
                             </div>
                         ) : (
                             <div className="flex flex-col space-y-2">
-                                <Link
-                                    href="/login"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full text-center py-2 text-sm font-medium text-slate-700 border border-slate-300 rounded-md"
-                                >
+                                <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-2 text-sm font-medium text-slate-700 border border-slate-300 rounded-md">
                                     Log in
                                 </Link>
-                                <Link
-                                    href="/signup"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full text-center py-2 text-sm font-medium bg-blue-700 text-white rounded-md"
-                                >
+                                <Link href="/signup" onClick={() => setMobileMenuOpen(false)} className="w-full text-center py-2 text-sm font-medium bg-blue-700 text-white rounded-md">
                                     Create Account
                                 </Link>
                             </div>
